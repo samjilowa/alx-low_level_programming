@@ -1,1 +1,1 @@
-this is my readme me file for my low level pprogramming
+0x07-pointers_arrays_strings readme file
