@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 include "main.h"
+=======
+#include "main.h"
+>>>>>>> 8ba7f3ef146ba1560ef0b71bee27fa6134dfe5c5
 /**
  * _isupper - uppercase letters
  * @c: char to check
@@ -11,4 +15,8 @@ int _isupper(int c)
 		return (1);
 	else
 	return (0);
+<<<<<<< HEAD
 }xsOA
+=======
+}
+>>>>>>> 8ba7f3ef146ba1560ef0b71bee27fa6134dfe5c5
