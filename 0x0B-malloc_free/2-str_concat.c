@@ -1,43 +1,51 @@
 #include "main.h"
-#include <stdlib.h>
+#include <stdio.h>
 
 /**
- * str_concat - function that concatenates two strings.
- *
- * @s1: first string
- * @s2: second string
- *
- * Return: NULL on failure
+ * string_nconcat - concatenate 2 strings, only n bytes of s2
+ * @s1: string 1
+ * @s2: string 2
+ * @n: bytes to include of s2
+ * Return: NULL if fail, else pointer to malloc memory
  */
 
-char *str_concat(char *s1, char *s2)
+char *string_nconcat(char *s1, char *s2, unsigned int n)
 {
-	int len, len1, len2, i, j;
-	char *conStr;
+	char *p;
+	int strlen1, i, c;
 
 	if (s1 == NULL)
 		s1 = "";
-	if (s2 == NULL)if (s2 == NULL)
+	if (s2 == NULL)
 		s2 = "";
 
-	for (len1 = 0; s1[len1] != '\0'; len1++)
-		;
-	for (len2 = 0; s2[len2] != '\0'; len2++)
-		;
-
-	len = len1 + len2;
-	conStr = malloc(sizeof(char) * (len + 1));
-
-	if (conStr == NULL)
-	{
-		free(conStr);
+	strlen1 = (unsigned int)_strlen(s1);
+	p = malloc((strlen1 + n + 1) * sizeof(char));
+	if (p == NULL)
 		return (NULL);
+	for (i = 0, c = 0; i < (strlen1 + n); i++)
+	{
+		if (i < strlen1)
+			p[i] = s1[i];
+		else
+			p[i] = s2[c++];
 	}
-	for (i = 0; i < len1; i++)
-		conStr[i] = s1[i];
+	p[i] = '\0';
 
-       	j = len2;
-	for (len2 = 0; len2 <= j; i++, len2++)
-		conStr[i] = s2[len2];
-	return (conStr);
-       
+	return (p);
+}
+
+/**
+ * _strlen - find length of string
+ * @s: string
+ * Return: length of string
+ */
+
+int _strlen(char *s)
+{
+	int i;
+
+	for (i = 0; s[i] != '\0'; i++)
+		;
+	return (i);
+}
