@@ -1,31 +1,46 @@
 #include "main.h"
 
 /**
- * create_file - create a file with read/write access for user
- * @filename: name of file to create
- * @text_content: string to write to file
+ * create_file - creates a file
+ * @filename: filename to create
+ * @text_content: string to add to file
+ *
  * Return: 1 on success, -1 on failure
  */
 int create_file(const char *filename, char *text_content)
 {
-	int fd, rstatus, i;
+	int file_descriptor;
+	int length;
+	int written;
 
 	if (filename == NULL)
-		return (-1);
-
-	fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC, S_IRUSR | S_IWUSR);
-	if (fd == -1)
-		return (-1);
-
-	if (text_content)
 	{
-		for (i = 0; text_content[i] != '\0'; i++)
-			;
-		rstatus = write(fd, text_content, i);
-		if (rstatus == -1)
-			return (-1);
+		return (-1);
 	}
 
-	close(fd);
+	file_descriptor = open(filename, O_CREAT | O_RDWR | O_TRUNC, 0600);
+
+	if (file_descriptor == -1)
+	{
+		return (-1);
+	}
+
+	if (text_content != NULL)
+	{
+		length = 0;
+		while (text_content[length])
+		{
+			length++;
+		}
+
+		written = write(file_descriptor, text_content, length);
+
+		if (written == -1)
+		{
+			return (-1);
+		}
+	}
+
+	close(file_descriptor);
 	return (1);
 }
