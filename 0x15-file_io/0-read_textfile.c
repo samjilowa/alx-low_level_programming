@@ -1,31 +1,39 @@
+#include <stddef.h>
+#include <stdlib.h>
 #include "main.h"
 
+
 /**
- * create_file - create a file with read/write access for user
- * @filename: name of file to create
- * @text_content: string to write to file
- * Return: 1 on success, -1 on failure
+ * read_textfile - read a text file to certain size
+ * @filename: the file pointer to readfrom
+ * @letters: the number of letters you want to read
+ *
+ * Return: void
  */
-int create_file(const char *filename, char *text_content)
+ssize_t read_textfile(const char *filename, size_t letters)
 {
-	int fd, rstatus, i;
+	char *buffer;
+	ssize_t o, r, w;
 
 	if (filename == NULL)
-		return (-1);
+		return (0);
 
-	fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC, S_IRUSR | S_IWUSR);
-	if (fd == -1)
-		return (-1);
+	buffer = malloc(sizeof(char) * letters);
+	if (buffer == NULL)
+		return (0);
 
-	if (text_content)
+	o = open(filename, O_RDONLY);
+	r = read(o, buffer, letters);
+	w = write(STDOUT_FILENO, buffer, r);
+
+	if (o == -1 || r == -1 || w == -1 || w != r)
 	{
-		for (i = 0; text_content[i] != '\0'; i++)
-			;
-		rstatus = write(fd, text_content, i);
-		if (rstatus == -1)
-			return (-1);
+		free(buffer);
+		return (0);
 	}
 
-	close(fd);
-	return (1);
+	free(buffer);
+	close(o);
+
+	return (w);
 }
